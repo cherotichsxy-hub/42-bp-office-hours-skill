@@ -28,7 +28,7 @@ A Claude Skill that runs an office-hours session for early-stage founders. Throu
 ### Claude Code
 
 ```bash
-git clone https://github.com/cherotichsxy-hub/bp-office-hours-skill ~/.claude/skills/bp-office-hours
+git clone https://github.com/cherotichsxy-hub/42-bp-office-hours-skill ~/.claude/skills/bp-office-hours
 ```
 
 If you want to upload PDF / PPTX / DOCX files in Claude Code, run the dependency installer once:
@@ -47,7 +47,7 @@ Clone the repo into Claude's skills directory (path depends on your client). PDF
 Clone the repo into your project at `.cursor/rules/bp-office-hours/`. Cursor will auto-load `SKILL.md` as a project rule.
 
 ```bash
-git clone https://github.com/cherotichsxy-hub/bp-office-hours-skill .cursor/rules/bp-office-hours
+git clone https://github.com/cherotichsxy-hub/42-bp-office-hours-skill .cursor/rules/bp-office-hours
 ```
 
 ### Other coding agents / AI platforms

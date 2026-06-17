@@ -28,7 +28,7 @@
 ### Claude Code
 
 ```bash
-git clone https://github.com/cherotichsxy-hub/bp-office-hours-skill ~/.claude/skills/bp-office-hours
+git clone https://github.com/cherotichsxy-hub/42-bp-office-hours-skill ~/.claude/skills/bp-office-hours
 ```
 
 如果你要在 Claude Code 里上传 PDF / PPTX / DOCX 这类文件，跑一次依赖安装：
@@ -47,7 +47,7 @@ cd ~/.claude/skills/bp-office-hours
 把仓库克隆到你项目下的 `.cursor/rules/bp-office-hours/`，Cursor 会自动把 `SKILL.md` 作为项目规则加载。
 
 ```bash
-git clone https://github.com/cherotichsxy-hub/bp-office-hours-skill .cursor/rules/bp-office-hours
+git clone https://github.com/cherotichsxy-hub/42-bp-office-hours-skill .cursor/rules/bp-office-hours
 ```
 
 ### 其他 coding agent / AI 平台
