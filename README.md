@@ -46,8 +46,8 @@ bp-office-hours/
 │   ├── 04-content-draft-spec.md  # 内容稿规范
 │   └── 05-slide-spec.md          # Slide Spec 规范（最终 PPT 交付物）
 └── examples/                      # 金标准样例
-    ├── wanaka-content-draft-golden.md
-    └── wanaka-slide-spec-golden.md
+    ├── skillet-example-content-draft.md   # 虚构案例样例
+    └── skillet-example-slide-spec.md      # 虚构案例样例
 ```
 
 ## 核心设计原则

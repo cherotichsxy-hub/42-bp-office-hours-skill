@@ -4,7 +4,7 @@
 
 Skill 不渲染 PPTX、HTML 或任何视觉文件。Slide Spec 本身**就是**最终交付物——它是一份结构化、可被人或下游工具稳定理解的文本，每页包含投资人需要看到的核心判断、必含事实、视觉形式建议和素材清单。
 
-**金标准样例：** `examples/wanaka-slide-spec-golden.md`。
+**样例：** `examples/skillet-example-slide-spec.md`（虚构案例，仅供格式参照）。
 
 ## 为什么不渲染 PPT
 
@@ -15,6 +15,40 @@ Spec 作为最终交付物有三个好处：
 1. **稳定**：相同输入 → 相同输出。可以反复 review、版本控制、AB 比较。
 2. **可移交**：创始人可以直接拿去找设计师、Gamma、Beautiful.AI、PowerPoint 模板，或自己手画。
 3. **可演化**：未来如果接入确定性的渲染脚本（python-pptx + 12 页固定模板），Spec 就是输入。
+
+## 对下游 Renderer 的硬约束（文字保真）
+
+Spec 一旦生成，如果交给任何下游 renderer（pptxgenjs、python-pptx、Gamma、设计师手画、frontend-slides 等）渲染成实际 PPT，下面这条规则**必须**被执行——这是 Skill 的底线，写在每一份生成的 Spec 文件最前面也要再提醒一次。
+
+**底线规则：所有出现在 PPT 上的文字，必须严格来自 Spec。不允许 renderer 自己编写新文字。**
+
+具体来说：
+
+- **必须逐字搬运的字段**：`page_title`、`core_sentence`、`must_include` 列出的所有事实。允许的只有去除标点、压缩空格、调整换行符这种最轻的格式清理。**不允许**改写、概括、扩写、补充例子、加形容词。
+- **必须从 Spec 中查证的字段**：`evidence`、`must_not_invent`、`asset_placeholders`、`improvement_notes`。这些是写给 reviewer 看的，不进 PPT 视觉本体，但 renderer 在做判断时必须读。
+- **允许自由发挥的部分**：
+  - 视觉形态（在 `visual_form` 的指引下，具体怎么画那张飞轮 / 矩阵 / 时间线）
+  - 配色、字号、字体、留白、对齐这些纯视觉决策
+  - 结构化图表的具体形状（漏斗的层数 ratio、矩阵的 cell padding、流程节点之间的箭头样式）
+  - 抽象/概念插画（封面意象、终局愿景图等纯氛围插画）
+
+也就是说：**图怎么画自由，话只能照搬。**
+
+**Renderer 绝对不能做的事**：
+
+- 给页面加 Spec 里没有的解释段、引用句、用户 quote、bullet point。
+- 在标题或主句里加"AI 创新"、"颠覆"、"赋能"、"行业领先"这类 Spec 没写的形容词。
+- 把 `must_not_invent` 列出的事实（融资金额、用户数、市场规模数字、客户名、留存率等）以任何形式渲染到页面上——即使是占位数字也不行（占位用 `asset_placeholders` 字段的方式处理）。
+- 把英文 page_title 翻成中文或反之，除非 Spec 明确给了双语版本。
+- "凑字数"——觉得某页太空就自己加文字内容。空就空着，或用 `asset_placeholders` 占位框处理。
+
+**为什么这条规则是底线**
+
+Spec 已经经过整个 Office Hours 流程的审计——每条 must_include 都能追溯到 Fact Bank、每个 must_not_invent 都在防止常见的编造风险。如果 renderer 自由发挥文字，前面所有的"不编造"工作都被推翻了。视觉自由没问题，文字必须保真。
+
+**如果信息不够**
+
+如果 Spec 某页的 must_include 信息不足以填满一个看起来 polished 的页面，**正确做法是让页面看起来稀疏一点，或者用 asset_placeholders 占位框**。不要让 renderer 用"通用模板填充"的方式补话。
 
 ## 整体结构
 

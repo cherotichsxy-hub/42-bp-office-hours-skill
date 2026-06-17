@@ -11,8 +11,8 @@ description: Use when a founder asks for help analyzing, improving, or rewriting
 
 每次完整会话结束都必须输出且仅输出这三块，顺序不要换：
 
-1. **内容稿** — 给创始人看的中文稿，按 12 个 BP 标准模块组织。规范见 `references/04-content-draft-spec.md`。金标准样例见 `examples/wanaka-content-draft-golden.md`。
-2. **Slide Spec** — 给投资人看的 Pitch Deck 的结构化文本规范。这就是最终交付物，不要尝试渲染成 HTML、PPTX 或图片。规范见 `references/05-slide-spec.md`。金标准样例见 `examples/wanaka-slide-spec-golden.md`。
+1. **内容稿** — 给创始人看的中文稿，按 12 个 BP 标准模块组织。规范见 `references/04-content-draft-spec.md`。样例见 `examples/skillet-example-content-draft.md`（虚构案例，仅供格式参照）。
+2. **Slide Spec** — 给投资人看的 Pitch Deck 的结构化文本规范。Skill 本身只输出 Spec，不直接渲染 PPT。如果用户想把 Spec 落到实际 .pptx，可以接 anthropic-skills:pptx 等下游 renderer——但 renderer 必须遵守一条硬约束：**图怎么画自由，话只能照搬 Spec**（page_title / core_sentence / must_include 逐字搬，must_not_invent 列出的事实绝对不能渲染上去）。详见 `references/05-slide-spec.md` 的"对下游 Renderer 的硬约束（文字保真）"。规范见 `references/05-slide-spec.md`。样例见 `examples/skillet-example-slide-spec.md`（虚构案例，仅供格式参照）。
 3. **给创始人的工作建议** — 把 Q&A 过程中暴露出的缺口、可能被投资人质疑的点、需要补的数据/素材，列成可执行的下一步清单。
 
 ## 何时触发
@@ -36,6 +36,42 @@ description: Use when a founder asks for help analyzing, improving, or rewriting
 6. 18 Part 信息足够生成初版 BP，或用户主动要求结果，就进入交付物生成。
 
 如果用户只要单点任务（例如"只看薄弱项"或"只生成一份 storyline"），直接做单点任务，不要硬带完整流程。
+
+## 材料读取
+
+用户上传的 BP / 访谈 / 项目介绍材料可能是各种格式。优先级 fallback：
+
+| 格式 | 优先工具 |
+|---|---|
+| 文本 / Markdown | 原生 Read |
+| PDF | 原生 Read → 失败时调用 anthropic-skills:pdf |
+| PPTX | anthropic-skills:pptx |
+| DOCX | anthropic-skills:docx |
+| Excel / CSV | anthropic-skills:xlsx |
+| 图片 | 原生 Read（Claude 可直接读图） |
+| 链接 / 网页 | WebFetch |
+
+不写客户端层面的安装指南（poppler、brew 等环境问题不在 Skill 的范围里）；只在 Claude 已有的工具链里 fallback。
+
+### 读取失败必须跟用户 check，不能静默推进
+
+**这是硬规则。** 如果用户上传的任何一份材料读取失败、或只读到一部分，**必须停下来跟用户 check 清楚**，不能拿能读到的子集直接当 source 往下跑。
+
+具体动作：
+
+1. 读完所有上传材料后（无论成功失败），给用户一个清单：
+   - 哪些材料完整读到了。
+   - 哪些没读到 / 只读到一部分 / 哪些页缺失。
+   - 为什么没读到（缺工具、文件格式不支持、损坏、扫描版 PDF 等）。
+   - 为了读到需要做什么（让用户换格式、改用别的客户端、把关键页文本直接粘贴过来等）。
+2. 给用户选择：
+   - 等他补完缺失材料再开始。
+   - 接受只用读到的部分往下推进——但**必须用户明确确认**才行。
+3. **不要假设缺的那部分不重要。** BP 里没读到的可能恰恰是团队、融资、关键数据这种核心信息。
+
+**错误示范**：PDF 读不到，只用访谈文字往下推，然后在最终 deliverable 里加一句"基于访谈的初版梳理"。这是把读取失败的责任转嫁给用户，不是 office hours 该做的事。
+
+**正确示范**：明确告诉用户"BP PDF 这边我读不出来（环境缺 poppler / 文件是扫描版 / etc.），只能读到访谈。要不你换个格式上传 / 让 Claude 换个客户端 / 粘贴关键页文本？或者你确认就用访谈往下走，我也可以，但内容稿和 Slide Spec 会缺很多 BP 里已经写过的事实。"
 
 ## 提问规则
 
