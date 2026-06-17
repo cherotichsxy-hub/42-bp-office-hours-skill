@@ -25,6 +25,45 @@ git clone <this-repo> .claude/skills/bp-office-hours
 
 具体安装路径以你的 Claude 客户端（Claude Code / Claude Desktop 等）的 Skill 加载规则为准。
 
+## 支持的上传格式与环境要求
+
+Skill 支持以下格式作为材料上传：**PDF、PPTX、DOCX、XLSX、TXT、Markdown、图片**。怎么准备环境取决于你用哪个 Claude 客户端：
+
+### 用 Claude.ai 网页版 / Claude Desktop
+
+PDF / PPT / DOC / 图片都可以**直接拖进对话框**，原生支持，**无需任何额外设置**。装好 Skill 直接用。
+
+### 用 Claude Code（CLI）
+
+Claude Code 通过本地工具读文件，需要先装一次依赖。仓库里有 `install.sh`：
+
+```bash
+cd bp-office-hours
+./install.sh
+```
+
+脚本会自动装：
+
+- **macOS**：先装 Homebrew（如果没装），然后 `brew install poppler`；再 pip 装 Python 解析库。
+- **Linux**：用 `apt-get` / `yum` / `dnf` 装 `poppler-utils`；再 pip 装 Python 解析库。
+- **Python 库**：`pdfplumber`、`pypdf`、`python-pptx`、`python-docx`、`openpyxl`。
+
+如果不想用脚本，可以手动装：
+
+```bash
+# macOS
+brew install poppler
+pip3 install --user pdfplumber pypdf python-pptx python-docx openpyxl
+
+# Linux（Debian / Ubuntu）
+sudo apt-get install poppler-utils
+pip3 install --user pdfplumber pypdf python-pptx python-docx openpyxl
+```
+
+### 想省事
+
+如果不想折腾 Claude Code 的环境，直接用 **Claude.ai 网页**或 **Claude Desktop** 跑这个 Skill——上传 PDF / PPT / DOC 都是原生支持，零设置。
+
 ## 触发方式
 
 任何下面这类请求，Claude 都会自动加载这个 Skill：
@@ -34,10 +73,24 @@ git clone <this-repo> .claude/skills/bp-office-hours
 - "帮我把这份融资 memo 打磨得更 sharp"
 - "我想跑一遍 BP Office Hours"
 
+## 看个完整输出示例
+
+想直观感受 Skill 跑完一次会产出什么？看 [examples/showcase-bytedance-2015/](examples/showcase-bytedance-2015/)——一份基于公开 BP（字节跳动 2015 年 C 轮）的完整输出，包含：
+
+- 内容稿（12 个模块 + 项目亮点）
+- Slide Spec（12 页结构化文本，可交给任意 renderer）
+- 给创始人的工作建议（按优先级分四档）
+- 渲染好的 `.pptx` 文件（让你看到从 Spec 到实际 PPT 的成品）
+
+⚠️ 该示例的 Q&A 部分是 mock 的，仅供格式参考，**不代表任何真实回答或对真实业务的分析**。
+
 ## 文件结构
 
 ```
 bp-office-hours/
+├── README.md                      # 你正在看的这份
+├── LICENSE
+├── install.sh                     # Claude Code 环境依赖一键安装
 ├── SKILL.md                       # 入口（Claude 默认加载）
 ├── references/                    # 按需加载的规范文档
 │   ├── 01-question-bank.md       # 18 Part 题库（固定问题 + 追问 + 候选挑战）
@@ -45,9 +98,13 @@ bp-office-hours/
 │   ├── 03-session-workflow.md    # 会话操作流程
 │   ├── 04-content-draft-spec.md  # 内容稿规范
 │   └── 05-slide-spec.md          # Slide Spec 规范（最终 PPT 交付物）
-└── examples/                      # 金标准样例
-    ├── skillet-example-content-draft.md   # 虚构案例样例
-    └── skillet-example-slide-spec.md      # 虚构案例样例
+└── examples/
+    ├── skillet-example-content-draft.md       # 虚构案例样例（格式参考）
+    ├── skillet-example-slide-spec.md          # 虚构案例样例（格式参考）
+    └── showcase-bytedance-2015/               # 公开 BP 完整输出示例
+        ├── README.md
+        ├── output.md                           # 三件交付物完整文本
+        └── pitch-deck.pptx                     # Slide Spec 渲染出的 .pptx
 ```
 
 ## 核心设计原则
