@@ -2,14 +2,14 @@
 
 一个帮助创始人打磨 BP / Pitch Deck 的 Claude Skill。
 
-通过 office-hours 风格的问答流程，读现有材料、按 18 个 BP Part 审计覆盖、提出 sharp 的追问，最后产出三件交付物：内容稿、Pitch Deck Slide Spec、给创始人的工作建议。
+通过 office-hours 风格的问答流程，读现有材料、按 18 个 BP Part 提问，最后产出三件交付物：内容稿、Pitch Deck Slide Spec、给创始人的建议。
 
 ## 这个 Skill 适合什么场景
 
 - 帮创始人分析、改进、重写 BP / Pitch Deck / 融资 memo / startup storyline
 - 扮演 FA 或早期 VC 的视角追问创始人
 - 找出融资材料里薄弱、缺失或会被投资人质疑的地方
-- 生成 storyline、Pitch Deck 内容稿、投资 memo 风格的稿子
+- 生成 storyline、Pitch Deck 内容稿
 
 ## 安装
 
