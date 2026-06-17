@@ -8,7 +8,7 @@ English · [中文](README.md)
 
 A Claude Skill that runs an office-hours session for early-stage founders. Through structured questioning, it helps you think through and articulate your project, then produces a fundraising-ready content draft, a Pitch Deck outline, and targeted suggestions.
 
-*(We built this Skill hoping to help founders tell their story better — distilled from years of conversations with founders and investors. It's still early and far from polished, so please bear with us if you run into rough edges. Feedback is very welcome. Current version: v0.1)*
+*(We built this Skill hoping to help founders tell their story better — distilled from years of conversations with founders and investors. It's still early and far from polished, so please bear with us if you run into rough edges. Feedback is very welcome. )*
 
 ## When to use
 
@@ -42,21 +42,6 @@ cd ~/.claude/skills/bp-office-hours
 
 Clone the repo into Claude's skills directory (path depends on your client). PDF / PPT / DOC uploads work natively — **no install.sh needed**.
 
-### Cursor
-
-Clone the repo into your project at `.cursor/rules/bp-office-hours/`. Cursor will auto-load `SKILL.md` as a project rule.
-
-```bash
-git clone https://github.com/cherotichsxy-hub/42-bp-office-hours-skill .cursor/rules/bp-office-hours
-```
-
-### Other coding agents / AI platforms
-
-This Skill is essentially a structured prompt plus reference docs. It adapts to almost any platform:
-
-- **Custom GPT / Claude Project**: Paste `SKILL.md` into system prompt / instructions. Attach `references/` and `examples/` as knowledge files.
-- **Aider / Continue / Kimi Code / others**: Paste `SKILL.md` as system prompt or conversation opener.
-- **Any AI that supports custom instructions**: Same idea.
 
 ## Trigger phrases
 
